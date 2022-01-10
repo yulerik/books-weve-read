@@ -17,6 +17,8 @@ mongoose.connect(uri, () => console.log('connected thru mongodb'))
 
 app.use('/books', require('./public/routes/bookRouter'))
 app.use('/authors', require('./public/routes/authorRouter'))
+app.use('/genres', require('./public/routes/genreRouter'))
+app.use('/search', require('./public/routes/searchRouter'))
 
 app.use((err, req, res, next) => {
     console.log(err)

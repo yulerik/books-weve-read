@@ -1,22 +1,21 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import {BookContext} from '../bookContext'
 
 function BookCard(props) {
     const {bookId} = useParams()
-    const {publicBooks} = useContext(BookContext)
-    const [book, setBook] = useState([])
+    const {publicBooks, findBook} = useContext(BookContext)
+    const [book] = useState(findBook(bookId, publicBooks))
 
-    useEffect(() => {
-        const book = publicBooks.find(book => book._id === bookId)
-        setBook(book)
-    }, [])
+    // useEffect(() => {
+    //     setBook(findBook(bookId, publicBooks))
+    // }, [book])
 
     return (
         <div>
             <h1>{book.title}</h1>
             <h3>{book.author}</h3>
-
+            
         </div>
     )
 }

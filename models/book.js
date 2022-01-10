@@ -2,10 +2,6 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const Genre = require('./genre')
 
-const genreSchema = new Genre({})
-const genre = mongoose.model('Genre', genreSchema);
-  
-
 const bookSchema = new Schema({
     title: {
         type: String,
@@ -14,15 +10,15 @@ const bookSchema = new Schema({
     readAgain: {
         type: Number
     },
-    genre: {genre},
+    genre: {
+        type: Schema.Types.ObjectId,
+        ref: 'Genre'
+    },
     author: {
         type: Schema.Types.ObjectId,
         ref: 'Author',
         required: true,
     }
-    
 })
-
-
 
 module.exports = mongoose.model('Book', bookSchema)
