@@ -10,15 +10,15 @@ const bookSchema = new Schema({
     readAgain: {
         type: Number
     },
-    genre: {
+    genre: [{
         type: Schema.Types.ObjectId,
         ref: 'Genre'
-    },
-    author: {
+    }],
+    author: [{
         type: Schema.Types.ObjectId,
         ref: 'Author',
         required: true,
-    }
+    }]
 })
 
 module.exports = mongoose.model('Book', bookSchema)

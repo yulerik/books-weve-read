@@ -2,7 +2,7 @@ const express = require('express')
 const genreRouter = express.Router()
 const Genre = require('../../models/genre')
 
-// all authors
+// all genres
 genreRouter.get('/', (req, res, next) => {
     Genre.find((err, authors) => {
         if (err) {
@@ -12,8 +12,18 @@ genreRouter.get('/', (req, res, next) => {
         return res.status(200).send(authors)
     })
 })
+// get specific genre by id
+genreRouter.get('/:genreId', (req, res, next) => {
+    Genre.findById(req.params.genreId, (err, genre) => {
+        if(err) {
+            res.status(500)
+            return next(err)
+        }
+        return res.status(200).send(genre)
+    })
+})
 
-// new author
+// new genre
 genreRouter.post('/', (req, res, next) => {
     const newGenre = new Genre (req.body)
     newGenre.save((err, savedGenre) => {

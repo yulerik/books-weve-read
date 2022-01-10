@@ -5,7 +5,7 @@ function NewGenre() {
     const {publicGenres} = useContext(BookContext)
 
     const subTypes = publicGenres.map(genre => {
-        return <option>{genre.subType}</option>
+        return <option key={genre._id}>{genre.subType}</option>
     })
 
     return (
