@@ -15,7 +15,6 @@ bookRouter.get('/', (req, res, next) => {
 })
 // get one book
 bookRouter.get('/:bookId', (req, res, next) => {
-
     Book.find({_id: req.params.bookId}, (err, book) => {
         if (err) {
             res.status(500)
@@ -24,16 +23,25 @@ bookRouter.get('/:bookId', (req, res, next) => {
         return res.status(200).send(book)
     })
 })
-
-// get by author
-bookRouter.get('/:authorId', (req, res, next) => {
+// find books with a specific author
+bookRouter.get('/author/:authorId', (req, res, next) => {
     Book.find({author: req.params.authorId}, (err, books) => {
-        if (err) {
+        if(err) {
             res.status(500)
             return next(err)
         }
         return res.status(200).send(books)
-    })  
+    })
+})
+// get books with a specific genre
+bookRouter.get('/genre/:genreId', (req, res, next) => {
+    Book.find({genre: req.params.genreId}, (err, books) => {
+        if(err) {
+            res.status(500)
+            return next(err)
+        }
+        return res.status(200).send(books)
+    })
 })
 
 // add new book

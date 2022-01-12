@@ -1,11 +1,27 @@
-import React from 'react'
-import {useLocation} from 'react-router-dom'
+import React, { useEffect, useContext } from 'react'
+import {useLocation, Link} from 'react-router-dom'
+import {BookContext} from '../../bookContext'
+
 
 function AuthorCard(props) {
     const location = useLocation()
-    console.log(location.state)
+    const {getAuthor, booksByAuthor} = useContext(BookContext)
+    console.log(booksByAuthor)
+    const displayBooks = booksByAuthor.map(each => 
+        <Link to={`${each._id}`}>
+            <h5>{each.title}</h5>
+        </Link>
+    )
+
+    useEffect(() => {
+        getAuthor(location.state._id)
+    }, [])
+
     return (
-        <h1>{location.state.name}</h1>
+        <div>
+            <h1>{location.state.name}</h1>
+            {displayBooks}
+        </div>
     )
 }
 

@@ -12,6 +12,24 @@ function BookContextProvider(props) {
     const [nonFiction, setNonFiction] = useState([])
     const [searchInputs, setSearchInputs] = useState({title: ''})
     const [searchResults, setSearchResults] = useState([])
+    const [newBookForm, setNewBookForm] = useState({title: ''})
+    const [newAuthorInputId, setNewAuthorInputId] = useState({_id: ''})
+    const [secAuthorId, setSecAuthorId] = useState([])
+    const [booksByAuthor, setBooksByAuthor] = useState([])
+    const [booksByGenre, setBooksByGenre] = useState([])
+
+    function getGenre(id) {
+        axios.get(`/public-books/genres/${id}/books`)
+            .then(res => setBooksByGenre(res.data))
+            .catch(err => console.log(err))
+    }
+
+    function getAuthor(id) {
+        axios.get(`/public-books/authors/${id}/books`)
+            .then(res => setBooksByAuthor(res.data))
+            .catch(err => console.log(err))
+    }
+
     
     function getPublicBooks() {
         axios.get('/books')
@@ -62,6 +80,30 @@ function BookContextProvider(props) {
         const genre = publicGenres.find(each => each._id === id)
         return genre
     }
+    function newBookSubmit(event) {
+        event.preventDefault()
+        console.log(event)
+        const newBook = {}
+        newBook.title = newBookForm.title
+        newBook.author = newAuthorInputId._id
+        if (secAuthorId.length > 0) {
+            newBook.author = [newAuthorInputId._id, ...secAuthorId]
+        }
+        console.log(newBook)
+    }
+    function handleNewBookForm(event) {
+        const {name, value} = event.target
+        setNewBookForm(prevInputs => ({...prevInputs, [name]: value}))
+    }
+    function newAuthorInput(event){
+        console.log(event.target.value)
+        setNewAuthorInputId(prevInputs => ({_id: event.target.value}))
+    }
+    function moreAuthors(event) {
+        const checked = event.map(each => each.checked && each.name==='author')
+        console.log(checked)
+    }
+    
 
     
     
@@ -80,9 +122,18 @@ function BookContextProvider(props) {
             publicGenres, 
             publicBooks, 
             publicAuthors, 
+            newBookForm,
+            booksByAuthor,
+            booksByGenre,
+            getGenre,
             findBook,
             bookSearch,
-            searchInput
+            searchInput,
+            newBookSubmit,
+            handleNewBookForm,
+            newAuthorInput,
+            moreAuthors,
+            getAuthor
             }} >
                 {props.children}
         </BookContext.Provider>
