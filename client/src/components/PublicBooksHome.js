@@ -23,10 +23,12 @@ function PublicBooksHome(props) {
     return (
         <div id='public-home'>
             <h1>Public Books Home</h1>
-            <p>Search for a book. If you cant find the one, go ahead and add it.</p>
-            <BookSearch />
-            <AuthorSearch />
-            <GenreSearch />
+            <p>Search for a book. If you cant find the one, go ahead and add it. Make sure each book as atleast one author. If you do not see the author you want, add the author first, then the book.</p>
+            <div id='search-inputs'>
+                <BookSearch />
+                <AuthorSearch />
+                <GenreSearch />
+            </div>
             <NewBook />
             <div id='search-results'>
                 {bookResults}

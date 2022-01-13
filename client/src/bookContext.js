@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
 const BookContext = React.createContext()
@@ -9,17 +9,24 @@ function BookContextProvider(props) {
     const [publicGenres, setPublicGenres] = useState([])
     const [fiction, setFiction] = useState([])
     const [nonFiction, setNonFiction] = useState([])
-    const [searchInputs, setSearchInputs] = useState({title: ''})
+    const [searchInputs, setSearchInputs] = useState({ title: '' })
     const [searchResults, setSearchResults] = useState([])
-    const [authorSearchInputs, setAuthorSearchInputs] = useState({name: ''})
+    const [authorSearchInputs, setAuthorSearchInputs] = useState({ name: '' })
     const [authorSearchResults, setAuthorSearchResults] = useState([])
-    const [genreSearchInputs, setGenreSearchInputs] = useState({subType: ''})
+    const [genreSearchInputs, setGenreSearchInputs] = useState({ subType: '' })
     const [genreSearchResults, setGenreSearchResults] = useState([])
-    const [newBookForm, setNewBookForm] = useState({title: ''})
-    const [newAuthorInputId, setNewAuthorInputId] = useState({_id: ''})
+    const [newBookForm, setNewBookForm] = useState({ title: '' })
+    const [newAuthorFormInput, setNewAuthorFormInput] = useState({ name: '' })
+    const [newGenreFormInput, setNewGenreFormInput] = useState({ subType: '' })
+    const [newAuthorInputId, setNewAuthorInputId] = useState({ _id: '' })
     const [secAuthorId, setSecAuthorId] = useState([])
+    const [fictionForNewBook, setFictionForNewBook] = useState([])
+    const [nonFictionForNewBook, setNonFictionForNewBook] = useState([])
     const [booksByAuthor, setBooksByAuthor] = useState([])
     const [booksByGenre, setBooksByGenre] = useState([])
+    const [showDisplay, setShowDisplay] = useState({ show: true })
+    const [showAuthor, setShowAuthor] = useState({ show: true })
+    const [showGenre, setShowGenre] = useState({ show: true })
 
     // get books with a certain genre
     function getGenre(id) {
@@ -74,7 +81,7 @@ function BookContextProvider(props) {
             axios.get(`/search/books?title=${event.target.title.value}`)
                 .then(res => {
                     setSearchResults(res.data)
-                    setSearchInputs({title: ''})
+                    setSearchInputs({ title: '' })
                 })
                 .catch(err => console.log(err))
         }
@@ -88,7 +95,7 @@ function BookContextProvider(props) {
             axios.get(`search/books?name=${event.target.name.value}`)
                 .then(res => {
                     setAuthorSearchResults(res.data)
-                    setAuthorSearchInputs({name: ''})
+                    setAuthorSearchInputs({ name: '' })
                 })
                 .catch(err => console.log(err))
         }
@@ -102,56 +109,127 @@ function BookContextProvider(props) {
             axios.get(`search/genres?subType=${event.target.subType.value}`)
                 .then(res => {
                     setGenreSearchResults(res.data)
-                    setGenreSearchInputs({subType: ''})
+                    setGenreSearchInputs({ subType: '' })
                 })
                 .catch(err => console.log(err))
         }
     }
     // input for title of book
     function searchInput(event) {
-        const {name, value} = event.target
-        setSearchInputs(prevInputs => ({...prevInputs, [name]: value}))
+        const { name, value } = event.target
+        setSearchInputs(prevInputs => ({ ...prevInputs, [name]: value }))
     }
     // input for name of author
     function authorSearchInput(event) {
-        const {name, value} = event.target
-        setAuthorSearchInputs(prevInputs => ({...prevInputs, [name]: value}))
+        const { name, value } = event.target
+        setAuthorSearchInputs(prevInputs => ({ ...prevInputs, [name]: value }))
     }
     // input for subType of genre
     function genreSearchInput(event) {
-        const {name, value} = event.target
-        setGenreSearchInputs(prevInputs => ({...prevInputs, [name]: value}))
+        const { name, value } = event.target
+        setGenreSearchInputs(prevInputs => ({ ...prevInputs, [name]: value }))
     }
     function findGenre(id) {
         const genre = publicGenres.find(each => each._id === id)
         return genre
     }
     // add new book to db
+    // need to clear inputs after successfull post call
     function newBookSubmit(event) {
         event.preventDefault()
-        console.log(event)
         const newBook = {}
         newBook.title = newBookForm.title
         newBook.author = newAuthorInputId._id
-        if (secAuthorId.length > 0) {
-            newBook.author = [newAuthorInputId._id, ...secAuthorId]
-        }
-
-        console.log(newBook)
-        // axios.post('/books', newBook)
-        //     .then(res => {
-        //         console.log(res)
-        //         getPublicBooks()
-        //     })
-        //     .catch(err => console.log(err))
+        newBook.genre = []
+        if (secAuthorId.length > 0) newBook.author = [newAuthorInputId._id, ...secAuthorId]
+        if (fictionForNewBook.length > 0) newBook.genre.push(...fictionForNewBook)
+        if (nonFictionForNewBook.length > 0) newBook.genre.push(...nonFictionForNewBook)
+        axios.post('/books', newBook)
+            .then(res => {
+                console.log(res)
+                getPublicBooks()
+                setNewBookForm({ title: ''})
+                setShowDisplay(prev => ({ show: !prev.show }))
+                setSecAuthorId([])
+                setFictionForNewBook([])
+                setNonFictionForNewBook([])
+            })
+            .catch(err => console.log(err))
+    }
+    // add new author to db
+    function newAuthorSubmit(event) {
+        event.preventDefault()
+        const newAuthor = {}
+        newAuthor.name = newAuthorFormInput.name
+        axios.post('/authors', newAuthor)
+            .then(res => {
+                getPublicAuthors()
+                setNewAuthorFormInput({ name: '' })
+                setShowAuthor(prev => ({ show: !prev.show }))
+            })
+            .catch(err => console.log(err))
+    }
+    // add new genre to db
+    function newGenreSubmit(event) {
+        event.preventDefault()
+        const newGenre = {}
+        newGenre.subType = newGenreFormInput.subType
+        const fictionChecked = event.target[0].checked
+        const nonFictionChecked = event.target[1].checked
+        if (fictionChecked) newGenre.type = 'fiction'
+        if (nonFictionChecked) newGenre.type = 'non-fiction'
+        axios.post('/genres', newGenre)
+            .then(res => {
+                getPublicGenres()
+                setNewGenreFormInput({ subType: '' })
+                setShowGenre(prev => ({ show: !prev.show }))
+            })
+            .catch(err => console.log(err))
     }
     function handleNewBookForm(event) {
-        const {name, value} = event.target
-        setNewBookForm(prevInputs => ({...prevInputs, [name]: value}))
+        const { name, value } = event.target
+        setNewBookForm(prevInputs => ({ ...prevInputs, [name]: value }))
     }
-    function newAuthorInput(event){
+    function handleNewAuthor(event) {
+        const { name, value } = event.target
+        setNewAuthorFormInput(prev => ({ ...prev, [name]: value }))
+    }
+    function handleNewGenre(event) {
+        const { name, value } = event.target
+        setNewGenreFormInput(prev => ({ ...prev, [name]: value }))
+    }
+    function handleMoreAuthors(event) {
+        const { id, checked } = event.target
+        console.log(id, checked)
+        if (checked) setSecAuthorId(prev => [...prev, id])
+        if (!checked) setSecAuthorId(prev => {
+            const index = prev.findIndex(each => each === id)
+            prev.splice(index, 1)
+            return [...prev]
+        })
+    }
+    function handleFiction(event) {
+        const { id, checked } = event.target
+        if (checked) setFictionForNewBook(prev => [...prev, id])
+        if (!checked) setFictionForNewBook(prev => {
+            const index = prev.findIndex(each => each === id)
+            prev.splice(index, 1)
+            return [...prev]
+        })
+    }
+    function handleNonFiction(event) {
+        const { id, checked } = event.target
+        if (checked) setNonFictionForNewBook(prev => [...prev, id])
+        if (!checked) setNonFictionForNewBook(prev => {
+            const index = prev.findIndex(each => each === id)
+            prev.splice(index, 1)
+            return [...prev]
+        })
+    }
+
+    function newAuthorInput(event) {
         console.log(event.target.value)
-        setNewAuthorInputId(prevInputs => ({_id: event.target.value}))
+        setNewAuthorInputId(prevInputs => ({ _id: event.target.value }))
     }
 
     useEffect(() => {
@@ -164,16 +242,31 @@ function BookContextProvider(props) {
         <BookContext.Provider value={{
             searchInputs,
             searchResults,
-            fiction, 
-            nonFiction, 
-            publicGenres, 
-            publicBooks, 
-            publicAuthors, 
+            fiction,
+            nonFiction,
+            publicGenres,
+            publicBooks,
+            publicAuthors,
             newBookForm,
             booksByAuthor,
             booksByGenre,
             authorSearchInputs,
             genreSearchInputs,
+            newAuthorFormInput,
+            newGenreFormInput,
+            showDisplay,
+            showGenre,
+            showAuthor,
+            handleFiction,
+            handleNonFiction,
+            handleMoreAuthors,
+            setShowDisplay,
+            setShowAuthor,
+            setShowGenre,
+            newGenreSubmit,
+            handleNewGenre,
+            newAuthorSubmit,
+            handleNewAuthor,
             genreSearchInput,
             genreSearch,
             authorSearchInput,
@@ -186,10 +279,10 @@ function BookContextProvider(props) {
             handleNewBookForm,
             newAuthorInput,
             getAuthor
-            }} >
-                {props.children}
+        }} >
+            {props.children}
         </BookContext.Provider>
     )
 }
 
-export {BookContext, BookContextProvider}
+export { BookContext, BookContextProvider }

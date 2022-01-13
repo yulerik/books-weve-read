@@ -47,6 +47,17 @@ li {
     grid-row: 2/3;
     grid-column: 2/3;
 }
+#search-inputs {
+    grid-row: 2/3;
+    grid-column: 2/3;
+}
+#search-inputs form {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    text-align: center;
+
+}
 #new-book {
     grid-column: 1/2;
 }

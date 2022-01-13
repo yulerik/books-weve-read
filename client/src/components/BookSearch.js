@@ -16,7 +16,7 @@ function BookSearch(props) {
                 name='title' 
                 type='text'
             ></input>
-            <button>Search</button>
+            <button>Book Search</button>
         </form>
     )
 }
