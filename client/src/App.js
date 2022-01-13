@@ -1,7 +1,6 @@
 import React from 'react'
 import {Routes, Route, Link, Outlet} from 'react-router-dom'
-
-
+import './styles.css'
 
 import Home from './components/Home'
 import PublicBook from './components/PublicBook'
@@ -18,18 +17,16 @@ import Footer from './components/Footer'
 function App() {
     return (
         <>
-            <nav>
-                <ul>
-                    <li>
-                        <Link to='/'>Home</Link>
-                    </li>
-                    <li>
-                        <Link to='public-books'>Public Books</Link>
-                    </li>
-                </ul>
-            </nav>
+            <ul id='nav'>
+                <li>
+                    <Link to='/'>Home</Link>
+                </li>
+                <li>
+                    <Link to='public-books'>Public Books</Link>
+                </li>
+            </ul>
             <Routes>
-                <Route path ='./' element={<App />}></Route>
+                <Route path ='/' element={<App />}></Route>
                     <Route index element={<Home />}></Route>
                     <Route path='public-books' element={<PublicBook />}>
                         <Route index element={<PublicBooksHome />}></Route>

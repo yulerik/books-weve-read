@@ -6,13 +6,17 @@ function GenreCard(props) {
     const {getGenre, booksByGenre} = useContext(BookContext)
     const location = useLocation()
     const {type, subType, _id} = location.state
-
+    // link for each book
     const displayBooks = booksByGenre.map(each => 
-        <Link to={`${each._id}`}>
+        <Link 
+            state={each}  
+            to={`/public-books/books/${each._id}`}
+            key={each._id}    
+        >
             <h2>{each.title}</h2>
         </Link>
         )
-
+    // set genre state, get call to for genre info
     useEffect(() => {
         getGenre(_id)
     }, [])

@@ -4,9 +4,13 @@ import {Link} from 'react-router-dom'
 
 function Books(props) {
     const {publicBooks} = useContext(BookContext)
-
+    // link for each book
     const displayBooks = publicBooks.map(each => 
-        <Link state={publicBooks.find(book => book._id === each._id)} to={each._id} key={each._id}>
+        <Link 
+            state={publicBooks.find(book => book._id === each._id)} 
+            to={each._id} 
+            key={each._id}
+        >
             <h3>{each.title}</h3>
         </Link>
         )

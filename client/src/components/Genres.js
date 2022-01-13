@@ -4,20 +4,31 @@ import {Link} from 'react-router-dom'
 
 function Genres() {
     const {publicGenres, fiction, nonFiction} = useContext(BookContext)
+    // returns genre object
     function findGenre(id) {
         const genre = publicGenres.find(each => each._id === id)
         return genre
     }
+    // link for each fiction genre
     const displayFiction = fiction.map(each => {
         return (
-            <Link state={findGenre(each._id)} to={`../genres/${each._id}`} key={each._id}>
+            <Link 
+                state={findGenre(each._id)} 
+                to={`../genres/${each._id}`} 
+                key={each._id}
+            >
                 <h4>{each.subType}</h4>
             </Link>
         )
         
     })
+    // link for each nonFiction genre
     const displayNonFiction = nonFiction.map(each => 
-        <Link state={findGenre(each._id)} to={`../genres/${each._id}`} key={each._id}>
+        <Link 
+            state={findGenre(each._id)} 
+            to={`../genres/${each._id}`} 
+            key={each._id}
+        >
             <h4>{each.subType}</h4>
         </Link>
         )

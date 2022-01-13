@@ -19,7 +19,7 @@ function Footer(props) {
     // window.addEventListener('scroll', toggleVisible)
 
     return (
-        <footer>
+        <footer id='footer'>
             <p>footer information</p>
             {/* <button style={{display: visible ? 'inline' : 'none'}} onClick={scrollToTop}>Back to top</button> */}
         </footer>

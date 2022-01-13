@@ -12,8 +12,16 @@ authorRouter.get('/', (req, res, next) => {
         return res.status(200).send(authors)
     })
 })
-
-
+// get author by id
+authorRouter.get('/:authorId', (req, res, next) => {
+    Author.findById(req.params.authorId, (err, author) => {
+        if (err) {
+            res.status(500)
+            return next(err)
+        }
+        return res.status(200).send(author)
+    })
+})
 // new author
 authorRouter.post('/', (req, res, next) => {
     const newAuthor = new Author(req.body)

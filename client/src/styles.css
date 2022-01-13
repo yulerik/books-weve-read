@@ -1,0 +1,68 @@
+body {
+    background-color: whitesmoke;
+    color: #333;
+    position: relative;
+    min-height: 100vh;
+
+}
+li {
+    list-style: none;
+}
+#nav {
+    display: flex;  
+    flex-direction: row;
+    justify-content: space-around;
+    grid-column: 3/5;
+
+}
+#root {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    
+    padding-bottom: 2.23rem;
+}
+#home-link {
+    grid-column: 1/3;
+    grid-row: 1/2;
+}
+#public-links {
+    grid-column: 1/5;
+    display: flex;
+    justify-content: space-evenly;
+}
+#public-home {
+    border: 1px solid black;
+    grid-row: 3;
+    grid-column: 1/5;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+#public-home > h1 {
+    grid-column: 1/3;
+}
+#public-home > p {
+    grid-column: 1/2;
+}
+#book-search {
+    grid-row: 2/3;
+    grid-column: 2/3;
+}
+#new-book {
+    grid-column: 1/2;
+}
+#new-book-form {
+    display: flex;
+    flex-direction: column;
+}
+#search-results {
+    grid-column: 2/3;
+}
+#public-home > * {
+    border: 1px solid black;
+}
+#footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 2.23rem;
+}
