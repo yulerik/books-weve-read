@@ -11,7 +11,7 @@ const path = require('path')
 
 app.use(express.json())
 app.use(morgan('dev'))
-app.use(express.static(path.join(_dirname, 'client', 'build')))
+app.use(express.static(path.join(__dirname, 'client', 'build')))
 
 mongoose.connect(uri, () => console.log('connected thru mongodb'))
 
@@ -30,7 +30,7 @@ app.use((err, req, res, next) => {
 })
 
 app.get('*', (req, res) => {
-    res.sendFile(path.join(_dirname, 'client', 'build', 'index.html'))
+    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
 })
 
 app.listen(port, () => {
