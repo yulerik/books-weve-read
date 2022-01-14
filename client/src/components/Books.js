@@ -16,7 +16,7 @@ function Books(props) {
         )
 
     return (
-        <div>
+        <div id='all-books'>
             <h1>All Books</h1>
             {displayBooks}
         </div>

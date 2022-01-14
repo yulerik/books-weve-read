@@ -22,10 +22,9 @@ function GenreCard(props) {
     }, [])
 
     return (
-        <div>
-            <h1>{type}</h1>
-            <h2>{subType}</h2>
-            <h3>All Books</h3>
+        <div id='genre-card'>
+            <h1>{subType} | {type}</h1>
+            <h3>Books by genre</h3>
             {displayBooks}
         </div>
     )

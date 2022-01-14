@@ -83,6 +83,7 @@ function NewBook() {
     return (
         <div id='new-book'>
             <button
+                style={{backgroundColor: !showDisplay.show && '#8A307F'}}
                 onClick={() => {
                     setShowDisplay(prev => (
                         { show: !prev.show }
@@ -102,6 +103,7 @@ function NewBook() {
                 {buttonText}
             </button>
             <button
+                style={{backgroundColor: !showAuthor.show && '#8A307F'}}
                 onClick={() => {
                     setShowAuthor(prev => (
                         { show: !prev.show }
@@ -121,6 +123,7 @@ function NewBook() {
                 {authorFormButtonText}
             </button>
             <button
+                style={{backgroundColor: !showGenre.show && '#8A307F'}}
                 onClick={() => {
                     setShowGenre(prev => (
                         { show: !prev.show }
@@ -208,7 +211,7 @@ function NewBook() {
                 <ul>
                     <li>
                         <label>Fiction</label>
-                        <input type='radio' value='fiction' name='type' checked></input>
+                        <input type='radio' value='fiction' name='type' defaultChecked></input>
                     </li>
                     <li>
                         <label>Non-Fiction</label>

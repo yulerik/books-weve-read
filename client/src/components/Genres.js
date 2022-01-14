@@ -34,14 +34,13 @@ function Genres() {
         )
 
     return (
-        <div>
+        <div id='all-genres'>
             <h1>All Genres</h1>
-            <div>
+            <div id='fiction'>
                 <h1>Fiction</h1>
                 {displayFiction}
             </div>
-
-            <div>
+            <div id='non-fiction'>
                 <h1>Non-Fiction</h1>
                 {displayNonFiction}
             </div>

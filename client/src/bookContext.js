@@ -82,9 +82,13 @@ function BookContextProvider(props) {
                 .then(res => {
                     setSearchResults(res.data)
                     setSearchInputs({ title: '' })
+                    if (res.data.length === 0) {
+                        alert(`no books with that title`)
+                    }
                 })
                 .catch(err => console.log(err))
         }
+        event.target.title.value = ''
     }
     // search db for author
     function authorSearch(event) {
@@ -92,13 +96,17 @@ function BookContextProvider(props) {
         if (event.target.name.value === '') {
             return
         } else {
-            axios.get(`search/books?name=${event.target.name.value}`)
+            axios.get(`search/authors?name=${event.target.name.value}`)
                 .then(res => {
                     setAuthorSearchResults(res.data)
                     setAuthorSearchInputs({ name: '' })
+                    if (res.data.length === 0) {
+                        alert(`no authors with that name, add the author before adding any books by this author.`)
+                    }
                 })
                 .catch(err => console.log(err))
         }
+        event.target.name.value = ''
     }
     // search db for genre
     function genreSearch(event) {
@@ -110,9 +118,13 @@ function BookContextProvider(props) {
                 .then(res => {
                     setGenreSearchResults(res.data)
                     setGenreSearchInputs({ subType: '' })
+                    if (res.data.length === 0) {
+                        alert(`no genre sub-type in fiction or non-fiction with that genre title.`)
+                    }
                 })
                 .catch(err => console.log(err))
         }
+        event.target.subType.value = ''
     }
     // input for title of book
     function searchInput(event) {
@@ -146,7 +158,6 @@ function BookContextProvider(props) {
         if (nonFictionForNewBook.length > 0) newBook.genre.push(...nonFictionForNewBook)
         axios.post('/books', newBook)
             .then(res => {
-                console.log(res)
                 getPublicBooks()
                 setNewBookForm({ title: ''})
                 setShowDisplay(prev => ({ show: !prev.show }))
@@ -200,7 +211,6 @@ function BookContextProvider(props) {
     }
     function handleMoreAuthors(event) {
         const { id, checked } = event.target
-        console.log(id, checked)
         if (checked) setSecAuthorId(prev => [...prev, id])
         if (!checked) setSecAuthorId(prev => {
             const index = prev.findIndex(each => each === id)
@@ -228,7 +238,6 @@ function BookContextProvider(props) {
     }
 
     function newAuthorInput(event) {
-        console.log(event.target.value)
         setNewAuthorInputId(prevInputs => ({ _id: event.target.value }))
     }
 
@@ -242,6 +251,8 @@ function BookContextProvider(props) {
         <BookContext.Provider value={{
             searchInputs,
             searchResults,
+            authorSearchResults,
+            genreSearchResults,
             fiction,
             nonFiction,
             publicGenres,
@@ -257,6 +268,9 @@ function BookContextProvider(props) {
             showDisplay,
             showGenre,
             showAuthor,
+            setSearchResults,
+            setAuthorSearchResults,
+            setGenreSearchResults,
             handleFiction,
             handleNonFiction,
             handleMoreAuthors,

@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import {BookContext} from '../bookContext'
 
@@ -6,9 +6,18 @@ import NewBook from './NewBook'
 import BookSearch from './BookSearch'
 import AuthorSearch from './AuthorSearch'
 import GenreSearch from './GenreSearch'
+import { set } from 'mongoose'
 
 function PublicBooksHome(props) {
-    const {searchResults, publicBooks} = useContext(BookContext)
+    const {
+        setSearchResults,
+        setAuthorSearchResults,
+        setGenreSearchResults,
+        searchResults, 
+        publicBooks, 
+        authorSearchResults, 
+        genreSearchResults
+    } = useContext(BookContext)
     // link for each book from the search
     const bookResults = searchResults.map(each => 
         <Link 
@@ -16,9 +25,33 @@ function PublicBooksHome(props) {
             to={`books/${each._id}`} 
             key={each._id}
         >
-            <h1>{each.title}</h1>
+            <li>{each.title}</li>
         </Link>
     )
+    const authorResults = authorSearchResults.map(each => 
+        <Link
+            state={each}
+            to={`authors/${each._id}`}
+            key={each._id}
+        >
+            <li>{each.name}</li>
+        </Link>
+        )
+    const genreResults = genreSearchResults.map(each => 
+        <Link
+            state={each}
+            to={`genres/${each._id}`}
+            key={each._id}
+        >
+            <li>{each.subType} | {each.type}</li>
+        </Link>
+        )
+
+    useEffect(() => {
+        setSearchResults([])
+        setAuthorSearchResults([])
+        setGenreSearchResults([])
+    }, [])
 
     return (
         <div id='public-home'>
@@ -31,7 +64,27 @@ function PublicBooksHome(props) {
             </div>
             <NewBook />
             <div id='search-results'>
-                {bookResults}
+                <ul 
+                    style={{display: searchResults.length === 0 && 'none'}} 
+                    id='book-results'
+                >
+                    <h3>Book Search Results</h3>
+                    {bookResults}
+                </ul>
+                <ul 
+                    style={{display: authorSearchResults.length === 0 && 'none'}}
+                    id='author-results'
+                >
+                    <h3>Author Search Results</h3>
+                    {authorResults}
+                </ul>
+                <ul 
+                    style={{display: genreSearchResults.length === 0 && 'none'}}
+                    id='genre-results'
+                >   
+                    <h3>Genre Search Results</h3>
+                    {genreResults}
+                </ul>
             </div>
         </div>
     )

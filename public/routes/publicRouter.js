@@ -35,6 +35,21 @@ publicRouter.route('/books/:bookId')
             return res.status(200).send(book)
         })
     })
+    .put((req, res, next) => {
+        // res.send(req.body)
+        Book.findOneAndUpdate(
+            {_id: req.params.bookId},
+            req.body,
+            {new: true},
+            (err, updatedBook) => {
+                if(err) {
+                    res.status(500)
+                    return next(err)
+                }
+                return res.status(200).send(updatedBook)
+            }
+        )
+    })
 publicRouter.route('/authors')
     .get((req, res, next) => {
         Author.find((err, authors) => {

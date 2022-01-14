@@ -1,12 +1,37 @@
 body {
-    background-color: whitesmoke;
+    background-color: #d4f3db;
     color: #333;
     position: relative;
     min-height: 100vh;
-
+    letter-spacing: .1em;
 }
 li {
     list-style: none;
+}
+button {
+    background-color: #3A6B35;
+    color: whitesmoke;
+    border-radius: 5px;
+}
+button:hover {
+    background-color: #8A307F;
+}
+form input {
+    background-color: #CBD18F;
+}
+
+a:link {
+    color: #0e77da;
+    text-decoration: none;
+}
+a:visited {
+    color: #6883BC;
+}
+a:hover {
+    color: #8A307F;
+}
+a:active {
+
 }
 #nav {
     display: flex;  
@@ -18,8 +43,11 @@ li {
 #root {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    
     padding-bottom: 2.23rem;
+}
+#home {
+    grid-column: 1/5;
+    text-align: center;
 }
 #home-link {
     grid-column: 1/3;
@@ -31,49 +59,128 @@ li {
     justify-content: space-evenly;
 }
 #public-home {
-    border: 1px solid black;
     grid-row: 3;
     grid-column: 1/5;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    text-align: center;
 }
 #public-home > h1 {
-    grid-column: 1/3;
+    grid-column: 1/4;
 }
 #public-home > p {
-    grid-column: 1/2;
+    grid-column: 1/4;
 }
 #book-search {
-    grid-row: 2/3;
-    grid-column: 2/3;
+    grid-column: 2/4;
 }
 #search-inputs {
-    grid-row: 2/3;
-    grid-column: 2/3;
+    grid-column: 1/4;
+    grid-row: 3/4;
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 5px;
 }
 #search-inputs form {
     display: flex;
     flex-direction: column;
-    width: 60%;
+    /* width: 60%; */
     text-align: center;
 
 }
 #new-book {
     grid-column: 1/2;
+    grid-row: 4/5;
+    display: flex;
+    flex-direction: column;
 }
 #new-book-form {
     display: flex;
     flex-direction: column;
 }
+#new-author-form {
+    display: flex;
+    flex-direction: column;
+}
+#new-genre-form {
+    display: flex;
+    flex-direction: column;
+}
 #search-results {
+    grid-column: 2/4;
+    grid-row: 4/5;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+#book-results {
+    grid-column: 1/2;
+}
+#genre-results {
     grid-column: 2/3;
 }
-#public-home > * {
-    border: 1px solid black;
+#author-results {
+    grid-column: 2/3;
+}
+#all-genres {
+    text-align: center;
+    grid-column: 1/5;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+#all-genres > h1 {
+    grid-column: 1/3;
+}
+#fiction {
+    grid-column: 1/2;
+}
+#non-fiction {
+    grid-column: 2/3;
+}
+#all-authors {
+    grid-column: 1/5;
+    text-align: center;
+}
+#all-books {
+    grid-column: 1/5;
+    text-align: center;
+}
+#book-card {
+    grid-column: 1/5;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    text-align: center;
+}
+#book-card > h1 {
+    grid-column: 1/3;
+    text-decoration: underline;
+}
+#book-authors {
+    grid-column: 1/2;
+}
+#book-genres {
+    grid-column: 2/3;
+}
+#author-card {
+    grid-column: 1/5;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+#genre-card {
+    grid-column: 1/5;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+}
+#genre-card > h1 {
+    text-decoration: underline;
 }
 #footer {
     position: absolute;
     bottom: 0;
     width: 100%;
     height: 2.23rem;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
 }

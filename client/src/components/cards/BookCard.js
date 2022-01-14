@@ -42,12 +42,16 @@ function BookCard(props) {
     }, [])
 
     return (
-        <div>
+        <div id='book-card'>
             <h1>{title}</h1>
-            <h2>Authors:</h2>
-            {displayAuthors}
-            <h2>Genres:</h2>
-            {displayGenres}
+            <div id='book-authors'>
+                <h2>Authors:</h2>
+                {displayAuthors}
+            </div>
+            <div id='book-genres'>
+                <h2>Genres:</h2>
+                {displayGenres}
+            </div>
         </div> 
     )
 }

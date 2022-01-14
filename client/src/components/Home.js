@@ -1,9 +1,12 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 
 function Home() {
     return (
-        <div className='home'>
-            <h1>Welcome to the the public books list.</h1>
+        <div id='home'>
+            <h1>Books We've Read</h1>
+            <p>users coming soon.<br></br>
+            Click on <Link to='public-books'>public books</Link> to start.</p>
         </div>
     )
 }

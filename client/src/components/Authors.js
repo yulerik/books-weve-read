@@ -16,7 +16,7 @@ function Authors() {
     )
 
     return (
-        <div>
+        <div id='all-authors'>
             <h1>All Authors</h1>
             {displayAuthors}
         </div>

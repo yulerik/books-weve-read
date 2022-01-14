@@ -21,8 +21,9 @@ function AuthorCard(props) {
     }, [])
 
     return (
-        <div>
+        <div id='author-card'>
             <h1>{location.state.name}</h1>
+            <h4>Books written:</h4>
             {displayBooks}
         </div>
     )

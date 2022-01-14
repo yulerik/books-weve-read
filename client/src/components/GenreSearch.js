@@ -16,7 +16,7 @@ function GenreSearch(props) {
                 name='subType' 
                 type='text'
             ></input>
-            <button>Search</button>
+            <button>Genre Search</button>
         </form>
     )
 }
