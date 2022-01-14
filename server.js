@@ -3,12 +3,15 @@ const morgan = require('morgan')
 const mongoose = require('mongoose')
 require('dotenv').config()
 const uri = process.env.MONGODB_URI
-const port = 9023
+const port = process.env.PORT || 9023
 
 const app = express()
 
+const path = require('path')
+
 app.use(express.json())
 app.use(morgan('dev'))
+app.use(express.static(path.join(_dirname, 'client', 'build')))
 
 mongoose.connect(uri, () => console.log('connected thru mongodb'))
 
@@ -24,6 +27,10 @@ app.use('/public-books', require('./public/routes/publicRouter'))
 app.use((err, req, res, next) => {
     console.log(err)
     return res.send({errMsg: err.message})
+})
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(_dirname, 'client', 'build', 'index.html'))
 })
 
 app.listen(port, () => {
